@@ -90,7 +90,7 @@
         var r = el('div', 'fan__row');
         r.appendChild(el('span', 'fan__k mono', pick(row.k)));
         var ul = el('ul', 'fan__items');
-        row.items.forEach(function (t) { ul.appendChild(el('li', 'fan__item', t)); });
+        row.items.forEach(function (t) { ul.appendChild(el('li', 'fan__item', pick(t))); });
         r.appendChild(ul);
         panel.appendChild(r);
       });
@@ -152,9 +152,14 @@
     body.textContent = '';
     state.items = SITE.works.filter(function (w) { return w.type === 'ill'; });
 
-    $('#worksMeta').textContent = pick(L().worksMeta) + ' · ' + SITE.works.length + ' ' + L().units;
+    /* types 里写了 only: 'zh' 的，就只在这一种语言下出现 */
+    var types = SITE.types.filter(function (t) { return !t.only || t.only === state.lang; });
+    var keys = types.map(function (t) { return t.key; });
+    var shown = SITE.works.filter(function (w) { return keys.indexOf(w.type) >= 0; });
 
-    SITE.types.forEach(function (type) {
+    $('#worksMeta').textContent = pick(L().worksMeta) + ' · ' + shown.length + ' ' + L().units;
+
+    types.forEach(function (type) {
       var list = SITE.works.filter(function (w) { return w.type === type.key; });
 
       var grp = el('section', 'grp');
@@ -484,6 +489,10 @@
     });
     $('[data-i="barFile"]').textContent = pick(SITE.bar.file);
     $('[data-i="barStatus"]').textContent = pick(SITE.bar.status);
+
+    /* 这句允许留空，空了就用默认文案（英文界面别掉出中文） */
+    var jump = $('[data-i="jumpOc"]');
+    if (jump) jump.textContent = t.jumpOc || (state.lang === 'en' ? 'See the OC' : '查看自设');
 
     $$('[data-ph-i]').forEach(function (node) {
       var k = node.getAttribute('data-ph-i');

@@ -203,9 +203,18 @@
     <button type="button" class="lb__b ocd__x" id="ocClose" aria-label="关闭">✕</button>
   </div>
   <div class="ocd__body">
-    <div class="ocd__fig"><div class="ph ph--tall" id="ocdPh"></div></div>
+    <div class="ocd__fig">
+      <div class="stack" id="ocStack" aria-label="自设图片"></div>
+      <div class="ph ph--tall" id="ocdPh"></div>
+      <div class="stack__nav" id="ocNav">
+        <button class="stack__b" type="button" id="ocPrev" aria-label="上一张">←</button>
+        <span class="mono stack__c" id="ocCount">1 / 1</span>
+        <button class="stack__b" type="button" id="ocNext" aria-label="下一张">→</button>
+      </div>
+    </div>
     <div class="ocd__text">
       <h3 class="ocd__name" id="ocdName"></h3>
+      <p class="ocd__pron mono" id="ocdPron"></p>
       <p class="ocd__line" id="ocdLine"></p>
       <dl class="props ocd__props" id="ocdProps"></dl>
       <p class="mono ocd__k" data-i="paroLabel">PARO</p>

@@ -21,15 +21,15 @@ const SITE = {
   /* ---------- 站点元信息（浏览器标签页上的字） ---------- */
   meta: {
     title: { zh: 'A1phaBet · 归档终端', en: 'A1phaBet · Archive Terminal' },
-    desc:  { zh: '听海 / A1phaBet 的同人主页：插画、切片、翻译与自设档案。',
-             en: 'A1phaBet — fanwork archive: illustration, clips, translation, and an OC.' },
+    desc:  { zh: '听海 / A1phaBet的 主页：绘画、切片、翻译与OC。',
+             en: 'A1phaBet — arts, clips, translation, and OCs.' },
     updated: '2026-10-25'
   },
 
   /* ---------- 顶栏（左边文件名 / 右边状态灯） ---------- */
   bar: {
-    file:   { zh: 'FILE AB—01', en: 'FILE AB—01' },
-    status: { zh: 'ONLINE',      en: 'ON AIR' }
+    file:   { zh: 'FILE ZHOU—07', en: 'FILE AB—01' },
+    status: { zh: 'ONLINE',      en: 'ONAIR' }
   },
 
   /* ============================================================
@@ -47,24 +47,24 @@ const SITE = {
         2. 把 https://formspree.io/f/xxxxxxxx 填进来
      留空 = 页面显示「留言箱还没接线」，表单禁用。
      ============================================================ */
-  noteEndpoint: '',
+  noteEndpoint: '039cfcee-bb90-47bc-85c2-12ca1047617a',
 
   /* ---------- 中文：本人 ---------- */
   zh: {
     lang: 'zh-CN',
 
     /* 左侧索引 + 顶栏读数 */
-    rail1: '身份', rail2: '自设', rail3: '作品', rail4: '信号', rail5: '留言',
+    rail1: '身份', rail2: '自设', rail3: '作品', rail4: '联系', rail5: '留言',
 
     /* 顶部那条警告 */
     noticeTag: 'NOTICE',
-    notice: '含成人向、血腥与死亡描写，请自行判断。',
+    notice: '展示内容可能含成人向、血腥与死亡描写，请自行判断。',
 
     /* 开屏四行：小字 / 大字 / 副标 / 正文 */
-    role: '同人主页 · 画手 / 切片 / 翻译',
+    role: '画手 / 切片 / 翻译',
     name: '听海',
     roman: 'A1PHABET · AB',
-    lede: '画插画，做切片，偶尔翻译。混 MCYT 和美国动画。平时是学生，这里是同人的部分。',
+    lede: '请用世界的潮汐填满我的壳',
     jumpOc: '查看自设',
 
     /* 三颗标签 */
@@ -75,17 +75,17 @@ const SITE = {
 
     /* 右栏属性表：一行一组 [标题, 内容] */
     props: [
-      ['圈名', '听海 / A1phaBet'],
-      ['简称', 'AB'],
+      ['CN', '听海 / A1phaBet'],
+      ['称呼', '听海/海/AB，我不介意任何'],
       ['在做', '插画 · 切片 · 翻译'],
-      ['状态', '不定期更新'],
+      ['状态', '三次繁忙，不定期更新'],
       ['联络', 'X / B站 / 小红书 / Discord']
     ],
 
     /* 02 自设 */
     ocTitle: '自设',
     ocMeta: 'ORIGINAL CHARACTER',
-    ocNote: '下面是我的原创角色（OC），不是本人。点开档案看完整设定。',
+    ocNote: '我不在除QQ空间的任何社交平台发布OC/自设内容，如果看到请及时联系我',
     ocOpen: '打开档案',
     ocDossier: 'DOSSIER',
     ocRoleLabel: '身份',
@@ -102,8 +102,8 @@ const SITE = {
     units: '件',
     linkPending: '待补链接',
 
-    /* 04 信号 */
-    signalTitle: '信号',
+    /* 04 联系 */
+    signalTitle: '联系',
     signalMeta: 'SIGNAL',
     copyHint: '点击复制',
     copied: '已复制',
@@ -111,13 +111,13 @@ const SITE = {
     /* 05 留言 */
     noteTitle: '留言',
     noteMeta: 'PRIVATE INBOX',
-    noteLead: '留张小纸条给我。只有我能看到，不会公开展示。',
+    noteLead: '有什么想说的尽管给我扔小纸条吧',
     noteNameLabel: '称呼',
     noteNamePh: '可不填',
     noteMsgLabel: '纸条',
     noteMsgPh: '写点什么',
     noteSend: '投递',
-    noteFine: '请不要留真实姓名、住址或联系方式；留言不会被公开。',
+    noteFine: '请不要留真实姓名、住址或联系方式；留言可匿名，不会被公开。',
     noteOff: '留言箱还没接线，暂时不能投递。',
     noteSending: '投递中…',
     noteOk: '纸条已经放进信箱了，谢谢你。',
@@ -140,27 +140,26 @@ const SITE = {
   en: {
     lang: 'en',
 
-    rail1: 'IDENT', rail2: 'OC', rail3: 'WORKS', rail4: 'SIGNAL', rail5: 'MAIL',
+    rail1: 'IDENT', rail2: 'OC', rail3: 'WORKS', rail4: 'CONTACT', rail5: 'MAIL',
 
     noticeTag: 'NOTICE',
-    notice: 'Contains adult themes, gore and character death. Proceed at your own discretion.',
+    notice: 'May contains adult themes, gore and character death. Proceed at your own discretion.',
 
-    role: 'FANWORK ARCHIVE · ART / CLIPS / TRANSLATION',
+    role: 'ARTS / CLIPS / TRANSLATION',
     name: 'A1phaBet',
     roman: '听海 / AB',
-    lede: 'I draw, make clips, and translate now and then. MCYT and American animation. Student in real life; this is the fandom side.',
-    jumpOc: 'See the OC',
+    lede: 'Is there a C between A and B?',
 
-    chips: ['Illustration', 'Clips', 'Translation'],
+    chips: ['Illustration', 'Translation'],
 
     idx: [['#identity', 'Ident'], ['#oc', 'OC'], ['#works', 'Works'], ['#signal', 'Signal'], ['#notes', 'Mail']],
 
     props: [
       ['HANDLE', '听海 / A1phaBet'],
-      ['SHORT', 'AB'],
-      ['MAKES', 'Illustration · clips · translation'],
-      ['STATUS', 'Updates when they happen'],
-      ['CONTACT', 'X / Bilibili / RED / Discord']
+      ['PRONOUCE', 'She/They'],
+      ['MAKES', 'Arts · clips · translation'],
+      ['STATUS', 'Busy irl, updates when they happen'],
+      ['CONTACT', 'X / Bilibili / RedNote / Discord']
     ],
 
     ocTitle: 'Original character',
@@ -181,14 +180,14 @@ const SITE = {
     units: 'items',
     linkPending: 'link pending',
 
-    signalTitle: 'Signal',
-    signalMeta: 'SIGNAL',
+    signalTitle: 'Contact',
+    signalMeta: 'CONTACT',
     copyHint: 'click to copy',
     copied: 'Copied',
 
     noteTitle: 'Inbox',
-    noteMeta: 'PRIVATE',
-    noteLead: 'Leave a note. Only I can read it — nothing here is shown to other visitors.',
+    noteMeta: 'ASK SOMETHING',
+    noteLead: 'Leave a note if you want to ask me something.',
     noteNameLabel: 'Name',
     noteNamePh: 'optional',
     noteMsgLabel: 'Note',
@@ -219,46 +218,58 @@ const SITE = {
     {
       key: 'mcyt',
       title: { zh: 'MCYT', en: 'MCYT' },
-      hint: { zh: '3 个服务器 · 11 位主播', en: '3 servers · 11 streamers' },
+      hint: { zh: '3 个领域 · 11 位主播', en: '3 fields · 11 streamers' },
       rows: [
-        { k: { zh: '服务器', en: 'SERVERS' }, items: ['Strength SMP', 'MCSR', 'ARG'] },
-        { k: { zh: '常看', en: 'WATCHING' }, items: ['itsnoob', 'yeahjaron', 'rejoice', 'wifies', 'judgelow', 'sharpness', 'boomie', 'godis', 'dol9phin', 'hackingnoises', 'feinberg'] }
+        { k: { zh: '服务器相关', en: 'SERVERS & OTHER STUFF' }, items: ['Strength SMP', 'MCSR', 'ARG'] },
+        { k: { zh: '我看', en: 'WATCHING' }, items: ['itsnoob', 'yeahjaron', 'rejoice', 'wifies', 'judelow', 'sharpness', 'boomie', 'godis', 'dol9phin', 'hackingnoises', 'feinberg'] }
       ]
     },
     {
       key: 'anim',
-      title: { zh: '美国动画', en: 'US animation' },
+      title: { zh: '美国动画', en: 'American Animation' },
       hint: { zh: '5 部', en: '5 shows' },
       rows: [
-        { k: { zh: '在看', en: 'WATCHING' }, items: ['Vivziepop 系', 'Glitch 系', '阴谋办公室', '怪诞小镇', '反派本色'] }
+        { k: { zh: '我看', en: 'WATCHING' }, items: [
+          { zh: 'Vivziepop相关', en: 'Vivziepop' },
+          { zh: 'Glitch相关', en: 'Glitch' },
+          { zh: '阴谋办公室', en: 'Inside Job' },
+          { zh: '怪诞小镇', en: 'Gravity Falls' },
+          { zh: '反派本色', en: 'Villainous' }
+        ] }
       ]
     }
   ],
 
   /* ============================================================
      自设（OC）：中英各一个，互相独立
-     role / field 会显示在档案弹窗里
-     paros 是分身或 AU 列表，比如 ['现代 AU', '便利店打工']
-     src 放立绘，null 就是占位网格
+     role / field 会显示在档案弹窗里（留空就不显示那一行）
+     pronouce 是可选的读音或代词行，显示在名字下面
+     line 是那一句设定；paros 是分身或 AU 列表，比如 ['现代 AU', '便利店打工']
+     src 是首页那张大图，null 就是占位网格
+     gallery 是档案里可以左右翻的图，按顺序摆；放几张都行，横图竖图都可以
+       写法：gallery: ['assets/portraits/1.jpg', 'assets/portraits/2.jpg']
+       gallery 为空时，档案里就用 src 那一张
      ============================================================ */
   oc: {
     zh: {
       id: '07-ZZ',
       name: '周柊',
-      role: '帝国科学院 · 第七号研究员',
+      role: '帝国科学院 · 【7】号研究员',
       field: '化工 / 药剂学 / 生物化学',
-      line: '帝国科学院『7』号研究员。职位不低，工位很小；白天配试剂、对账、写报告。',
-      paros: [],
-      src: null
+      line: '其实只是很高级的社畜',
+      paros: ['西幻AU-Verity'],
+      src: null,
+      gallery: []
     },
     en: {
-      id: 'AB-OC',
+      id: '00-AB',
       name: 'AlphaBet',
-      role: 'Late-night radio host · band vocalist',
-      field: 'Non-biological · broadcast 23:00—03:00',
-      line: 'Radio host and vocalist. Non-biological — the voice turns up before the body does.',
+      role: 'Late-night radio host · Band vocalist',
+      pronouce: "it (it dosen't mind how people call it)",
+      line: 'Non-biological, it has no mouth-wait, where does it voice come from?',
       paros: [],
-      src: null
+      src: null,
+      gallery: []
     }
   },
 
@@ -286,10 +297,11 @@ const SITE = {
     { id: 'T-03', type: 'trans', title: { zh: '未命名翻译', en: 'Untitled translation' }, year: '—', platform: '—', url: '' }
   ],
 
-  /* 作品类型的名字与排版（grid = 图片卡，links = 外链行） */
+  /* 作品类型的名字与排版（grid = 图片卡，links = 外链行）
+     写了 only: 'zh' 的类，只在中文界面出现（切片就是，因为链接是 B 站） */
   types: [
     { key: 'ill',   zh: '插画', en: 'ILLUSTRATION', layout: 'grid' },
-    { key: 'clip',  zh: '切片', en: 'CLIPS',        layout: 'links' },
+    { key: 'clip',  zh: '切片', en: 'CLIPS',        layout: 'links', only: 'zh' },
     { key: 'trans', zh: '翻译', en: 'TRANSLATION',  layout: 'links' }
   ],
 
