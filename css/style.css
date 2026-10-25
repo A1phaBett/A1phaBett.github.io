@@ -510,6 +510,44 @@ html[data-lang="zh"] .hero__name {
 .foot__sep { opacity: .5; }
 .foot__meta a { text-decoration: none; border-bottom: 1px solid var(--line2); padding-bottom: 1px; }
 .foot__meta a:hover { color: var(--accent); border-color: var(--accent); }
+.foot__log {
+  -webkit-appearance: none; appearance: none;
+  padding: 0 0 1px; border: 0; border-bottom: 1px solid var(--line2);
+  background: none; color: inherit;
+  font: inherit; letter-spacing: inherit;
+  cursor: pointer;
+  transition: color .18s var(--ease), border-color .18s var(--ease);
+}
+.foot__log:hover { color: var(--accent); border-color: var(--accent); }
+
+/* ---------- 更新记录面板 ---------- */
+.lgd {
+  width: min(760px, 92vw);
+  max-width: 760px;
+  max-height: 86vh;
+  padding: 0;
+  border: 1px solid var(--line2);
+  background: var(--field);
+  color: var(--ink);
+  overflow: auto;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .5);
+}
+.lgd::backdrop, dialog.lgd[open]::backdrop {
+  background: rgba(3, 7, 9, .92);
+  backdrop-filter: blur(2px);
+}
+.lgd__bar {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 12px;
+  background: var(--field);
+  border-bottom: 1px solid var(--line);
+}
+.lgd__tag { font-size: .625rem; letter-spacing: .16em; color: var(--ink2); }
+.lgd__title { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: .01em; }
+.lgd__x { margin-left: auto; }
+.lgd__body { padding: clamp(14px, 2vw, 24px); }
+.lgd .log { border-top: 0; }
 
 /* ---------- 灯箱 ---------- */
 .lb {

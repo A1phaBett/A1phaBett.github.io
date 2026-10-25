@@ -50,8 +50,7 @@
     <li><a href="#oc" data-rail="oc"><span class="rail__no mono">02</span><span class="rail__lb" data-i="rail2">自设</span></a></li>
     <li><a href="#works" data-rail="works"><span class="rail__no mono">03</span><span class="rail__lb" data-i="rail3">作品</span></a></li>
     <li><a href="#signal" data-rail="signal"><span class="rail__no mono">04</span><span class="rail__lb" data-i="rail4">信号</span></a></li>
-    <li><a href="#log" data-rail="log"><span class="rail__no mono">05</span><span class="rail__lb" data-i="rail5">记录</span></a></li>
-    <li><a href="#notes" data-rail="notes"><span class="rail__no mono">06</span><span class="rail__lb" data-i="rail6">留言</span></a></li>
+    <li><a href="#notes" data-rail="notes"><span class="rail__no mono">05</span><span class="rail__lb" data-i="rail5">留言</span></a></li>
   </ol>
 </nav>
 
@@ -134,18 +133,7 @@
     </div>
   </section>
 
-  <!-- 05 记录 -->
-  <section class="sec" id="log" aria-labelledby="h-log">
-    <div class="wrap">
-      <div class="sec__head">
-        <h2 id="h-log" data-i="logTitle">记录</h2>
-        <p class="sec__meta mono" data-i="logMeta">LOG</p>
-      </div>
-      <ol class="log" id="logList"></ol>
-    </div>
-  </section>
-
-  <!-- 06 留言：私密投递箱 -->
+  <!-- 05 留言：私密投递箱 -->
   <section class="sec" id="notes" aria-labelledby="h-notes">
     <div class="wrap">
       <div class="sec__head">
@@ -181,6 +169,8 @@
     <p class="foot__line foot__line--dim" data-i="foot2"></p>
     <p class="foot__meta mono">
       <span data-i="footUpdated">UPDATED</span> <span id="updated">2026-10-25</span>
+      <span class="foot__sep" aria-hidden="true">/</span>
+      <button class="foot__log" type="button" id="logOpen"><span data-i="footLog">更新记录</span></button>
       <span class="foot__sep" aria-hidden="true">/</span>
       <a href="#identity" data-i="footTop">BACK TO TOP</a>
     </p>
@@ -221,6 +211,18 @@
       <p class="mono ocd__k" data-i="paroLabel">PARO</p>
       <ul class="paros__list" id="ocdParos"></ul>
     </div>
+  </div>
+</dialog>
+
+<!-- 更新记录（页脚那个小链接打开的） -->
+<dialog class="lgd" id="logDlg" aria-labelledby="logHead">
+  <div class="lgd__bar">
+    <span class="mono lgd__tag" data-i="logMeta">LOG</span>
+    <h2 class="lgd__title" id="logHead" data-i="logTitle">记录</h2>
+    <button type="button" class="lb__b lgd__x" id="logClose" aria-label="关闭">✕</button>
+  </div>
+  <div class="lgd__body">
+    <ol class="log" id="logList"></ol>
   </div>
 </dialog>
 

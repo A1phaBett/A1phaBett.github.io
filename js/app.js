@@ -139,6 +139,13 @@
   $('#ocOpen').addEventListener('click', openOc);
   $('#ocClose').addEventListener('click', function () { ocDlg.close(); });
 
+  /* ---------------- 更新记录（页脚小链接） ---------------- */
+  var logDlg = $('#logDlg');
+  $('#logOpen').addEventListener('click', function () {
+    if (typeof logDlg.showModal === 'function') logDlg.showModal(); else logDlg.setAttribute('open', '');
+  });
+  $('#logClose').addEventListener('click', function () { logDlg.close(); });
+
   /* ---------------- 作品 ---------------- */
   function buildWorks() {
     var body = $('#worksBody');
@@ -387,14 +394,12 @@
     noteOut.textContent = L().noteSending;
     noteBtn.disabled = true;
 
-    fetch(SITE.noteEndpoint, {
+    var req = noteRequest(noteName.value.trim() || '匿名 / anonymous', msg);
+
+    fetch(req.url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        name: noteName.value.trim() || '匿名 / anonymous',
-        message: msg,
-        _subject: 'A1phaBet · 新纸条'
-      })
+      body: JSON.stringify(req.body)
     }).then(function (r) {
       if (!r.ok) throw new Error('rejected');
       return r.json().catch(function () { return {}; });
@@ -406,6 +411,34 @@
       noteBtn.disabled = false;
     });
   });
+
+  /* 三种服务都能用，按你填的内容自动判断 */
+  function noteRequest(name, message) {
+    var ep = String(SITE.noteEndpoint || '').trim();
+    var isUrl = /^https?:\/\//i.test(ep);
+
+    if (isUrl && /formsubmit\.co/i.test(ep)) {
+      var u = ep.replace(/\/+$/, '');
+      if (!/\/ajax\//i.test(u)) u = u.replace(/formsubmit\.co\/(?!ajax\/)/i, 'formsubmit.co/ajax/');
+      return { url: u, body: { name: name, message: message, _subject: 'A1phaBet · 新纸条' } };
+    }
+    if (isUrl && /formspree\.io/i.test(ep)) {
+      return { url: ep, body: { name: name, message: message, _subject: 'A1phaBet · 新纸条' } };
+    }
+    if (isUrl) {
+      return { url: ep, body: { name: name, message: message } };
+    }
+    return {
+      url: 'https://api.web3forms.com/submit',
+      body: {
+        access_key: ep,
+        name: name,
+        message: message,
+        subject: 'A1phaBet · 新纸条',
+        from_name: 'A1phaBet'
+      }
+    };
+  }
 
   function noteSucceed() {
     noteOut.textContent = L().noteOk;
@@ -477,7 +510,7 @@
 
   /* ---------------- 顶栏读数 / 索引高亮 ---------------- */
   var currentSection = 'identity';
-  var sections = ['identity', 'oc', 'works', 'signal', 'log', 'notes'];
+  var sections = ['identity', 'oc', 'works', 'signal', 'notes'];
 
   function setReadout(id) {
     var i = sections.indexOf(id);
