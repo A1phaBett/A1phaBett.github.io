@@ -145,7 +145,7 @@ const SITE = {
     noticeTag: 'NOTICE',
     notice: 'May contains adult themes, gore and character death. Proceed at your own discretion.',
 
-    role: 'ARTS / CLIPS / TRANSLATION',
+    role: 'ARTS / TRANSLATION',
     name: 'A1phaBet',
     roman: '听海 / AB',
     lede: 'Is there a C between A and B?',
@@ -258,8 +258,15 @@ const SITE = {
       field: '化工 / 药剂学 / 生物化学',
       line: '其实只是很高级的社畜',
       paros: ['西幻AU-Verity'],
-      src: null,
-      gallery: []
+      src: 'assets/portraits/zh-01.webp',
+      gallery: [
+        'assets/portraits/zh-01.webp',
+        'assets/portraits/zh-02.webp',
+        'assets/portraits/zh-03.webp',
+        'assets/portraits/zh-04.webp',
+        'assets/portraits/zh-05.webp',
+        'assets/portraits/zh-06.webp'
+      ]
     },
     en: {
       id: '00-AB',
@@ -268,8 +275,12 @@ const SITE = {
       pronouce: "it (it dosen't mind how people call it)",
       line: 'Non-biological, it has no mouth-wait, where does it voice come from?',
       paros: [],
-      src: null,
-      gallery: []
+      src: 'assets/portraits/en-01.webp',
+      gallery: [
+        'assets/portraits/en-01.webp',
+        'assets/portraits/en-02.webp',
+        'assets/portraits/en-03.webp'
+      ]
     }
   },
 
@@ -280,21 +291,27 @@ const SITE = {
      切片、翻译：把网址写进 url，访客点一下直接跳走
      ============================================================ */
   works: [
-    { id: 'W-01', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: null },
-    { id: 'W-02', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: null },
-    { id: 'W-03', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: null },
-    { id: 'W-04', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: null },
-    { id: 'W-05', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: null },
-    { id: 'W-06', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: null },
+    { id: 'W-01', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-01.webp' },
+    { id: 'W-02', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-02.webp' },
+    { id: 'W-03', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-03.webp' },
+    { id: 'W-04', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-04.webp' },
+    { id: 'W-05', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-05.webp' },
+    { id: 'W-06', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-06.webp' },
+    { id: 'W-07', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-07.webp' },
+    { id: 'W-08', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-08.webp' },
+    { id: 'W-09', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-09.webp' },
+    { id: 'W-10', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-10.webp' },
+    { id: 'W-11', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-11.webp' },
+    { id: 'W-12', type: 'ill', title: { zh: '未命名', en: 'Untitled' }, year: '—', src: 'assets/works/W-12.webp' },
 
-    { id: 'C-01', type: 'clip', title: { zh: '未命名切片', en: 'Untitled clip' }, year: '—', platform: 'Bilibili', url: '' },
-    { id: 'C-02', type: 'clip', title: { zh: '未命名切片', en: 'Untitled clip' }, year: '—', platform: 'Bilibili', url: '' },
-    { id: 'C-03', type: 'clip', title: { zh: '未命名切片', en: 'Untitled clip' }, year: '—', platform: 'Bilibili', url: '' },
-    { id: 'C-04', type: 'clip', title: { zh: '未命名切片', en: 'Untitled clip' }, year: '—', platform: 'Bilibili', url: '' },
+    { id: 'C-01', type: 'clip', title: { zh: '论Yeahjaron的一万种叫法', en: '论Yeahjaron的一万种叫法' }, year: '—', platform: 'Bilibili', url: 'https://b23.tv/uqjrCC7' },
+    { id: 'C-02', type: 'clip', title: { zh: 'Rejoice和Tru对同人画师的看法', en: 'Rejoice和Tru对同人画师的看法' }, year: '—', platform: 'Bilibili', url: 'https://b23.tv/IzrOzt0' },
+    { id: 'C-03', type: 'clip', title: { zh: '请求逃离原生Judelow家庭', en: '请求逃离原生Judelow家庭' }, year: '—', platform: 'Bilibili', url: 'https://b23.tv/4ZcQz2O' },
+    { id: 'C-04', type: 'clip', title: { zh: '因为我们是无盾', en: '因为我们是无盾' }, year: '—', platform: 'Bilibili', url: 'https://b23.tv/gyFjCyx' },
+    { id: 'C-05', type: 'clip', title: { zh: '配音小剧场之一百亿刀乐与队友情', en: '配音小剧场之一百亿刀乐与队友情' }, year: '—', platform: 'Bilibili', url: 'https://b23.tv/huYL71U' },
 
-    { id: 'T-01', type: 'trans', title: { zh: '未命名翻译', en: 'Untitled translation' }, year: '—', platform: '—', url: '' },
-    { id: 'T-02', type: 'trans', title: { zh: '未命名翻译', en: 'Untitled translation' }, year: '—', platform: '—', url: '' },
-    { id: 'T-03', type: 'trans', title: { zh: '未命名翻译', en: 'Untitled translation' }, year: '—', platform: '—', url: '' }
+    { id: 'T-01', type: 'trans', title: { zh: 'Boomie-MC史上最大的陷阱', en: 'Boomie-MC史上最大的陷阱' }, year: '—', platform: 'Bilibili', url: 'https://b23.tv/B7Sjv1m' },
+    { id: 'T-02', type: 'trans', title: { zh: '电子幽灵-Ghost in the machine', en: '电子幽灵-Ghost in the machine' }, year: '—', platform: 'LOFTER', url: 'https://www.lofter.com/front/blog/collection/share?collectionId=29751109&incantation=hjcVFIFB46Zy' }
   ],
 
   /* 作品类型的名字与排版（grid = 图片卡，links = 外链行）

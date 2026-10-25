@@ -100,9 +100,16 @@
   }
 
   /* ---------------- 自设 ---------------- */
+  function ocImages(o) {
+    var list = (o.gallery && o.gallery.length) ? o.gallery.slice() : [];
+    if (!list.length && o.src) list = [o.src];
+    return list;
+  }
+
   function buildOc() {
     var o = SITE.oc[state.lang] || SITE.oc.zh;
-    fillFigure($('#ocPh'), o.src, o.name + ' — ' + L().ocTitle, o.id, L().phNote, L().phHint);
+    var imgs = ocImages(o);
+    fillFigure($('#ocPh'), imgs[0] || null, o.name + ' — ' + L().ocTitle, o.id, L().phNote, L().phHint);
     $('#ocId').textContent = o.id;
     $('#ocName').textContent = o.name;
     $('#ocLine').textContent = o.line;
@@ -112,18 +119,25 @@
 
   function openOc() {
     var o = SITE.oc[state.lang] || SITE.oc.zh;
-    fillFigure($('#ocdPh'), o.src, o.name + ' — ' + L().ocTitle, o.id, L().phNote, L().phHint);
+    var imgs = ocImages(o);
 
     $('#ocdId').textContent = o.id;
     $('#ocdName').textContent = o.name;
+
+    var pron = $('#ocdPron');
+    pron.textContent = o.pronouce ? '/' + o.pronouce + '/' : '';
+    pron.hidden = !o.pronouce;
+
     $('#ocdLine').textContent = o.line;
 
     var dl = $('#ocdProps');
     dl.textContent = '';
     [[L().ocRoleLabel, o.role], [L().ocFieldLabel, o.field]].forEach(function (row) {
+      if (!row[1]) return;
       dl.appendChild(el('dt', 'props__k mono', row[0]));
       dl.appendChild(el('dd', 'props__v', row[1]));
     });
+    dl.hidden = !dl.children.length;
 
     var list = $('#ocdParos');
     list.textContent = '';
@@ -133,8 +147,118 @@
       o.paros.forEach(function (p) { list.appendChild(el('li', 'paros__i', pick(p))); });
     }
 
+    stackBuild(imgs, { id: o.id, note: L().phNote, hint: L().phHint });
+    $('#ocNav').hidden = imgs.length < 2;
+
     if (typeof ocDlg.showModal === 'function') ocDlg.showModal(); else ocDlg.setAttribute('open', '');
   }
+
+  /* ---------------- 图片卡片堆叠 ---------------- */
+  var stackEl = $('#ocStack');
+  var stackCards = [];
+  var stackIdx = 0;
+  var drag = { on: false, x0: 0, dx: 0 };
+
+  function stackBuild(items, ph) {
+    stackEl.textContent = '';
+    stackCards = [];
+    stackIdx = 0;
+    items.forEach(function (src) {
+      var card = el('div', 'stack__card');
+      var img = el('img');
+      img.alt = '';
+      img.draggable = false;
+      img.src = src;
+      card.appendChild(img);
+      stackEl.appendChild(card);
+      stackCards.push(card);
+    });
+
+    /* 一张图都没有时，卡里放占位格子 */
+    if (!stackCards.length && ph) {
+      var empty = el('div', 'stack__card is-top');
+      var box = el('div', 'ph ph--tall');
+      box.appendChild(el('span', 'ph__id mono', ph.id || ''));
+      box.appendChild(el('span', 'ph__note mono', ph.note || ''));
+      box.appendChild(el('span', 'ph__hint mono', ph.hint || ''));
+      empty.appendChild(box);
+      stackEl.appendChild(empty);
+      stackCards.push(empty);
+    }
+
+    stackApply();
+  }
+
+  function stackApply() {
+    stackCards.forEach(function (card, i) {
+      var off = i - stackIdx;
+      var abs = Math.abs(off);
+
+      if (abs > 2) {
+        card.style.opacity = '0';
+        card.style.pointerEvents = 'none';
+        card.style.zIndex = '0';
+        card.classList.remove('is-top');
+        card.style.transform = 'translate(-50%, -50%) scale(.94)';
+        return;
+      }
+
+      card.classList.toggle('is-top', abs === 0);
+      card.style.opacity = '1';
+      card.style.zIndex = String(100 - abs);
+      card.style.pointerEvents = abs === 0 ? 'auto' : 'none';
+      card.style.transform =
+        'translate(-50%, -50%) translateX(' + (off * 12) + 'px) translateY(' + (abs * 9) + 'px)' +
+        ' scale(' + (1 - abs * 0.05) + ') rotate(' + (off * 1.1) + 'deg)';
+    });
+
+    $('#ocCount').textContent = stackCards.length ? (stackIdx + 1) + ' / ' + stackCards.length : '';
+  }
+
+  function stackStep(d) {
+    if (stackCards.length < 2) return;
+    stackIdx = (stackIdx + d + stackCards.length) % stackCards.length;
+    stackApply();
+  }
+
+  stackEl.addEventListener('pointerdown', function (e) {
+    if (stackCards.length < 2) return;
+    drag.on = true;
+    drag.x0 = e.clientX;
+    drag.dx = 0;
+    stackEl.classList.add('is-drag');
+    try { stackEl.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+
+  stackEl.addEventListener('pointermove', function (e) {
+    if (!drag.on) return;
+    drag.dx = e.clientX - drag.x0;
+    var card = stackCards[stackIdx];
+    if (card) {
+      card.style.transform =
+        'translate(-50%, -50%) translateX(' + drag.dx + 'px) rotate(' + (drag.dx * 0.02) + 'deg)';
+    }
+  });
+
+  function stackRelease() {
+    if (!drag.on) return;
+    drag.on = false;
+    stackEl.classList.remove('is-drag');
+    if (Math.abs(drag.dx) > 48) stackStep(drag.dx < 0 ? 1 : -1);
+    else stackApply();
+    drag.dx = 0;
+  }
+
+  stackEl.addEventListener('pointerup', stackRelease);
+  stackEl.addEventListener('pointercancel', stackRelease);
+  stackEl.addEventListener('pointerleave', stackRelease);
+
+  $('#ocPrev').addEventListener('click', function () { stackStep(-1); });
+  $('#ocNext').addEventListener('click', function () { stackStep(1); });
+  ocDlg.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); stackStep(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); stackStep(1); }
+  });
 
   $('#ocOpen').addEventListener('click', openOc);
   $('#ocClose').addEventListener('click', function () { ocDlg.close(); });
@@ -191,7 +315,6 @@
         img.src = w.src;
         img.alt = pick(w.alt) || pick(w.title);
         img.loading = 'lazy';
-        img.decoding = 'async';
         fig.appendChild(img);
       } else {
         fig.appendChild(el('span', 'ph'));
