@@ -7,7 +7,7 @@
 <meta name="referrer" content="no-referrer">
 <meta name="color-scheme" content="light dark">
 <title>A1phaBet · 归档终端</title>
-<meta name="description" content="周柊 / AlphaBet 的归档终端：身份、形象、作品与信号。">
+<meta name="description" content="听海 / A1phaBet 的同人主页：插画、切片、翻译与自设档案。">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080E11'/%3E%3Cpath d='M16 4v24M4 16h24' stroke='%2300E5FF' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%2300E5FF' stroke-width='1.5'/%3E%3C/svg%3E">
 <link rel="preload" href="assets/fonts/syne-800.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -31,7 +31,7 @@
 <header class="bar">
   <div class="bar__id">
     <span class="bar__dot" aria-hidden="true"></span>
-    <span class="mono" data-i="barFile">FILE 07—ZZ</span>
+    <span class="mono" data-i="barFile">FILE AB—01</span>
   </div>
   <div class="bar__mid mono" aria-hidden="true" id="barReadout">—</div>
   <div class="bar__right">
@@ -47,10 +47,11 @@
 <nav class="rail" aria-label="章节索引">
   <ol class="rail__list">
     <li><a href="#identity" data-rail="identity"><span class="rail__no mono">01</span><span class="rail__lb" data-i="rail1">身份</span></a></li>
-    <li><a href="#portrait" data-rail="portrait"><span class="rail__no mono">02</span><span class="rail__lb" data-i="rail2">形象</span></a></li>
+    <li><a href="#oc" data-rail="oc"><span class="rail__no mono">02</span><span class="rail__lb" data-i="rail2">自设</span></a></li>
     <li><a href="#works" data-rail="works"><span class="rail__no mono">03</span><span class="rail__lb" data-i="rail3">作品</span></a></li>
     <li><a href="#signal" data-rail="signal"><span class="rail__no mono">04</span><span class="rail__lb" data-i="rail4">信号</span></a></li>
     <li><a href="#log" data-rail="log"><span class="rail__no mono">05</span><span class="rail__lb" data-i="rail5">记录</span></a></li>
+    <li><a href="#notes" data-rail="notes"><span class="rail__no mono">06</span><span class="rail__lb" data-i="rail6">留言</span></a></li>
   </ol>
 </nav>
 
@@ -62,47 +63,56 @@
     </div>
   </div>
 
+  <!-- 01 身份：这是「我」，不是自设 -->
   <section class="sec sec--hero" id="identity" aria-labelledby="h-name">
-    <div class="wrap hero">
-      <div class="hero__body">
-        <p class="hero__role mono" data-i="role"></p>
-        <h1 class="hero__name" id="h-name" data-i="name"></h1>
-        <p class="hero__roman mono" data-i="roman"></p>
-        <p class="hero__lede" data-i="lede"></p>
-        <p class="hero__jump">
-          <a class="jump" href="#portrait"><span data-i="jumpPortrait">查看形象</span><span class="jump__ar" aria-hidden="true">↓</span></a>
-        </p>
-        <ul class="chips" id="chips"></ul>
-        <ul class="idx" id="idx"></ul>
+    <div class="wrap">
+      <div class="hero">
+        <div class="hero__body">
+          <p class="hero__role mono" data-i="role"></p>
+          <h1 class="hero__name" id="h-name" data-i="name"></h1>
+          <p class="hero__roman mono" data-i="roman"></p>
+          <p class="hero__lede" data-i="lede"></p>
+          <p class="hero__jump">
+            <a class="jump" href="#oc"><span data-i="jumpOc">查看自设</span><span class="jump__ar" aria-hidden="true">↓</span></a>
+          </p>
+          <ul class="chips" id="chips"></ul>
+          <ul class="idx" id="idx"></ul>
+        </div>
+        <div class="hero__side">
+          <dl class="props" id="props"></dl>
+        </div>
       </div>
-      <div class="hero__side">
-        <dl class="props" id="props"></dl>
-      </div>
+
+      <div class="fan" id="fan"></div>
     </div>
   </section>
 
-  <section class="sec" id="portrait" aria-labelledby="h-portrait">
+  <!-- 02 自设：独立的 OC -->
+  <section class="sec" id="oc" aria-labelledby="h-oc">
     <div class="wrap">
       <div class="sec__head">
-        <h2 id="h-portrait" data-i="portraitTitle">形象</h2>
-        <p class="sec__meta mono" data-i="portraitMeta">PORTRAIT · 01</p>
+        <h2 id="h-oc" data-i="ocTitle">自设</h2>
+        <p class="sec__meta mono" data-i="ocMeta">ORIGINAL CHARACTER</p>
       </div>
-      <div class="portrait">
-        <div class="portrait__fig">
-          <div class="ph ph--tall" id="portraitPh"></div>
+      <p class="sec__note" data-i="ocNote"></p>
+
+      <div class="occard">
+        <div class="occard__fig">
+          <div class="ph ph--tall" id="ocPh"></div>
         </div>
-        <div class="portrait__text">
-          <p class="portrait__name" data-i="ocName"></p>
-          <p class="portrait__line" data-i="ocLine"></p>
-          <div class="paros">
-            <p class="mono paros__k" data-i="paroLabel">PARO</p>
-            <ul class="paros__list" id="paros"></ul>
-          </div>
+        <div class="occard__body">
+          <p class="mono occard__id" id="ocId"></p>
+          <h3 class="occard__name" id="ocName"></h3>
+          <p class="occard__line" id="ocLine"></p>
+          <button class="btn" type="button" id="ocOpen">
+            <span data-i="ocOpen">打开档案</span><span class="btn__ar" aria-hidden="true">→</span>
+          </button>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- 03 作品 -->
   <section class="sec" id="works" aria-labelledby="h-works">
     <div class="wrap">
       <div class="sec__head">
@@ -113,6 +123,7 @@
     </div>
   </section>
 
+  <!-- 04 信号 -->
   <section class="sec" id="signal" aria-labelledby="h-signal">
     <div class="wrap">
       <div class="sec__head">
@@ -123,6 +134,7 @@
     </div>
   </section>
 
+  <!-- 05 记录 -->
   <section class="sec" id="log" aria-labelledby="h-log">
     <div class="wrap">
       <div class="sec__head">
@@ -130,6 +142,35 @@
         <p class="sec__meta mono" data-i="logMeta">LOG</p>
       </div>
       <ol class="log" id="logList"></ol>
+    </div>
+  </section>
+
+  <!-- 06 留言：私密投递箱 -->
+  <section class="sec" id="notes" aria-labelledby="h-notes">
+    <div class="wrap">
+      <div class="sec__head">
+        <h2 id="h-notes" data-i="noteTitle">留言</h2>
+        <p class="sec__meta mono" data-i="noteMeta">PRIVATE INBOX</p>
+      </div>
+      <p class="sec__lead" data-i="noteLead"></p>
+
+      <form class="note" id="noteForm" novalidate>
+        <div class="note__f">
+          <label class="note__lb mono" for="nName" data-i="noteNameLabel">称呼</label>
+          <input class="note__in" id="nName" name="name" type="text" maxlength="40" autocomplete="off" data-ph-i="noteNamePh" placeholder="可不填">
+        </div>
+        <div class="note__f">
+          <label class="note__lb mono" for="nMsg" data-i="noteMsgLabel">纸条</label>
+          <textarea class="note__ta" id="nMsg" name="message" rows="5" maxlength="600" required data-ph-i="noteMsgPh" placeholder="写点什么"></textarea>
+          <p class="note__count mono" id="nCount">0 / 600</p>
+        </div>
+        <input class="note__hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="note__act">
+          <button class="btn btn--solid" type="submit" id="nSend"><span data-i="noteSend">投递</span></button>
+          <p class="note__out" id="nOut" role="status" aria-live="polite"></p>
+        </div>
+        <p class="note__fine mono" data-i="noteFine"></p>
+      </form>
     </div>
   </section>
 </main>
@@ -146,6 +187,7 @@
   </div>
 </footer>
 
+<!-- 作品灯箱（插画） -->
 <dialog class="lb" id="lb" aria-labelledby="lbTitle">
   <div class="lb__bar">
     <span class="mono lb__id" id="lbId">W-01</span>
@@ -153,13 +195,32 @@
     <div class="lb__ctl">
       <button type="button" class="lb__b" id="lbPrev" aria-label="上一张">←</button>
       <button type="button" class="lb__b" id="lbNext" aria-label="下一张">→</button>
-      <button type="button" class="lb__b lb__b--x" id="lbClose" aria-label="关闭">✕</button>
+      <button type="button" class="lb__b" id="lbClose" aria-label="关闭">✕</button>
     </div>
   </div>
   <div class="lb__stage" id="lbStage"></div>
   <div class="lb__cap">
     <p class="lb__title" id="lbTitle"></p>
     <p class="mono lb__meta" id="lbMeta"></p>
+  </div>
+</dialog>
+
+<!-- 自设档案 -->
+<dialog class="ocd" id="ocDlg" aria-labelledby="ocdName">
+  <div class="ocd__bar">
+    <span class="mono ocd__tag" data-i="ocDossier">DOSSIER</span>
+    <span class="mono ocd__id" id="ocdId"></span>
+    <button type="button" class="lb__b ocd__x" id="ocClose" aria-label="关闭">✕</button>
+  </div>
+  <div class="ocd__body">
+    <div class="ocd__fig"><div class="ph ph--tall" id="ocdPh"></div></div>
+    <div class="ocd__text">
+      <h3 class="ocd__name" id="ocdName"></h3>
+      <p class="ocd__line" id="ocdLine"></p>
+      <dl class="props ocd__props" id="ocdProps"></dl>
+      <p class="mono ocd__k" data-i="paroLabel">PARO</p>
+      <ul class="paros__list" id="ocdParos"></ul>
+    </div>
   </div>
 </dialog>
 

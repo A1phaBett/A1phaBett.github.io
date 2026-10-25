@@ -6,8 +6,10 @@
   var state = { lang: root.dataset.lang === 'en' ? 'en' : 'zh', idx: 0, items: [] };
 
   function $(s, r) { return (r || document).querySelector(s); }
+  function $$(s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
   function L() { return SITE[state.lang]; }
   function pick(v) { return v == null ? '' : (typeof v === 'string' ? v : (v[state.lang] || v.zh || '')); }
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -18,7 +20,25 @@
 
   function announce(msg) { $('#live').textContent = msg; }
 
-  /* ---------------- 首屏：创作标签 + 移动端索引 ---------------- */
+  /* ---------------- 立绘 / 占位图 ---------------- */
+  function fillFigure(box, src, alt, idText, noteText, hintText) {
+    box.textContent = '';
+    if (src) {
+      var img = el('img', 'figure__img');
+      img.src = src;
+      img.alt = alt || '';
+      img.decoding = 'async';
+      box.appendChild(img);
+      box.classList.add('has-img');
+    } else {
+      box.classList.remove('has-img');
+      box.appendChild(el('span', 'ph__id mono', idText || ''));
+      box.appendChild(el('span', 'ph__note mono', noteText || ''));
+      if (hintText) box.appendChild(el('span', 'ph__hint mono', hintText));
+    }
+  }
+
+  /* ---------------- 首屏 ---------------- */
   function buildChips() {
     var ul = $('#chips');
     ul.textContent = '';
@@ -39,7 +59,6 @@
     });
   }
 
-  /* ---------------- 属性表 ---------------- */
   function buildProps() {
     var dl = $('#props');
     dl.textContent = '';
@@ -49,98 +68,166 @@
     });
   }
 
-  /* ---------------- 形象 ---------------- */
-  function buildPortrait() {
-    var box = $('#portraitPh');
+  /* ---------------- 圈子：可展开的抽屉 ---------------- */
+  function buildFan() {
+    var box = $('#fan');
     box.textContent = '';
-    var src = SITE.portrait ? SITE.portrait[state.lang] : null;
+    SITE.fandom.forEach(function (g, i) {
+      var d = el('details', 'fan__g');
+      var s = el('summary', 'fan__s');
 
-    if (src) {
-      var img = el('img', 'portrait__img');
-      img.src = src;
-      img.alt = L().ocName + ' — ' + L().portraitTitle;
-      img.decoding = 'async';
-      box.appendChild(img);
-      box.classList.add('has-img');
+      s.appendChild(el('span', 'fan__no mono', pad(i + 1)));
+      s.appendChild(el('span', 'fan__t', pick(g.title)));
+      s.appendChild(el('span', 'fan__h mono', pick(g.hint)));
+      var ic = el('span', 'fan__ic');
+      ic.setAttribute('aria-hidden', 'true');
+      s.appendChild(ic);
+
+      d.appendChild(s);
+
+      var panel = el('div', 'fan__p');
+      g.rows.forEach(function (row) {
+        var r = el('div', 'fan__row');
+        r.appendChild(el('span', 'fan__k mono', pick(row.k)));
+        var ul = el('ul', 'fan__items');
+        row.items.forEach(function (t) { ul.appendChild(el('li', 'fan__item', t)); });
+        r.appendChild(ul);
+        panel.appendChild(r);
+      });
+      d.appendChild(panel);
+      box.appendChild(d);
+    });
+  }
+
+  /* ---------------- 自设 ---------------- */
+  function buildOc() {
+    var o = SITE.oc[state.lang] || SITE.oc.zh;
+    fillFigure($('#ocPh'), o.src, o.name + ' — ' + L().ocTitle, o.id, L().phNote, L().phHint);
+    $('#ocId').textContent = o.id;
+    $('#ocName').textContent = o.name;
+    $('#ocLine').textContent = o.line;
+  }
+
+  var ocDlg = $('#ocDlg');
+
+  function openOc() {
+    var o = SITE.oc[state.lang] || SITE.oc.zh;
+    fillFigure($('#ocdPh'), o.src, o.name + ' — ' + L().ocTitle, o.id, L().phNote, L().phHint);
+
+    $('#ocdId').textContent = o.id;
+    $('#ocdName').textContent = o.name;
+    $('#ocdLine').textContent = o.line;
+
+    var dl = $('#ocdProps');
+    dl.textContent = '';
+    [[L().ocRoleLabel, o.role], [L().ocFieldLabel, o.field]].forEach(function (row) {
+      dl.appendChild(el('dt', 'props__k mono', row[0]));
+      dl.appendChild(el('dd', 'props__v', row[1]));
+    });
+
+    var list = $('#ocdParos');
+    list.textContent = '';
+    if (!o.paros || !o.paros.length) {
+      list.appendChild(el('li', 'paros__empty', L().paroEmpty));
     } else {
-      box.classList.remove('has-img');
-      box.appendChild(el('span', 'ph__id mono', pick(SITE.meta.portraitId)));
-      box.appendChild(el('span', 'ph__note mono', L().phNote));
-      box.appendChild(el('span', 'ph__hint mono', L().phHint));
+      o.paros.forEach(function (p) { list.appendChild(el('li', 'paros__i', pick(p))); });
     }
+
+    if (typeof ocDlg.showModal === 'function') ocDlg.showModal(); else ocDlg.setAttribute('open', '');
   }
 
-  function buildParos() {
-    var ul = $('#paros');
-    ul.textContent = '';
-    if (!SITE.paros.length) {
-      ul.appendChild(el('li', 'paros__empty', L().paroEmpty));
-      return;
-    }
-    SITE.paros.forEach(function (p) { ul.appendChild(el('li', 'paros__i', pick(p))); });
-  }
+  $('#ocOpen').addEventListener('click', openOc);
+  $('#ocClose').addEventListener('click', function () { ocDlg.close(); });
 
   /* ---------------- 作品 ---------------- */
   function buildWorks() {
     var body = $('#worksBody');
     body.textContent = '';
-    state.items = SITE.works.slice();
+    state.items = SITE.works.filter(function (w) { return w.type === 'ill'; });
+
     $('#worksMeta').textContent = pick(L().worksMeta) + ' · ' + SITE.works.length + ' ' + L().units;
 
     SITE.types.forEach(function (type) {
       var list = SITE.works.filter(function (w) { return w.type === type.key; });
 
-      var group = el('section', 'grp');
+      var grp = el('section', 'grp');
       var head = el('div', 'grp__head');
       head.appendChild(el('h3', 'grp__t', pick(type)));
-      head.appendChild(el('p', 'grp__m mono', pick(type.en ? { zh: type.en, en: type.en } : type) + ' · ' + pad(list.length)));
-      group.appendChild(head);
+      head.appendChild(el('p', 'grp__m mono', type.en + ' · ' + pad(list.length)));
+      grp.appendChild(head);
 
       if (!list.length) {
-        group.appendChild(el('p', 'grp__empty', L().worksEmpty));
+        grp.appendChild(el('p', 'grp__empty', L().worksEmpty));
+      } else if (type.layout === 'links') {
+        grp.appendChild(buildLinkList(list));
       } else {
-        var grid = el('div', 'grid');
-        list.forEach(function (w) {
-          var card = el('button', 'card');
-          card.type = 'button';
-          card.setAttribute('data-id', w.id);
-
-          var fig = el('span', 'card__fig');
-          if (w.src) {
-            var img = el('img', 'card__img');
-            img.src = w.src;
-            img.alt = pick(w.alt) || pick(w.title);
-            img.loading = 'lazy';
-            img.decoding = 'async';
-            fig.appendChild(img);
-            card.setAttribute('aria-label', w.id + ' ' + pick(w.title));
-          } else {
-            fig.appendChild(el('span', 'ph'));
-            fig.appendChild(el('span', 'ph__id mono', w.id));
-            fig.appendChild(el('span', 'ph__t mono', type.en));
-            card.setAttribute('aria-label', w.id + ' ' + pick(w.title) + ' · ' + L().phNote);
-          }
-          fig.appendChild(el('span', 'card__bar'));
-          card.appendChild(fig);
-
-          var meta = el('span', 'card__meta');
-          meta.appendChild(el('span', 'card__no mono', w.id));
-          meta.appendChild(el('span', 'card__title', pick(w.title)));
-          if (w.year && w.year !== '—') meta.appendChild(el('span', 'card__year mono', w.year));
-          card.appendChild(meta);
-
-          card.addEventListener('click', function () { openLb(w.id); });
-          grid.appendChild(card);
-        });
-        group.appendChild(grid);
+        grp.appendChild(buildGrid(list, type));
       }
-      body.appendChild(group);
+      body.appendChild(grp);
     });
   }
 
-  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function buildGrid(list, type) {
+    var grid = el('div', 'grid');
+    list.forEach(function (w) {
+      var card = el('button', 'card');
+      card.type = 'button';
 
-  /* ---------------- 信号（社媒） ---------------- */
+      var fig = el('span', 'card__fig');
+      if (w.src) {
+        var img = el('img', 'card__img');
+        img.src = w.src;
+        img.alt = pick(w.alt) || pick(w.title);
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        fig.appendChild(img);
+      } else {
+        fig.appendChild(el('span', 'ph'));
+        fig.appendChild(el('span', 'ph__id mono', w.id));
+        fig.appendChild(el('span', 'ph__t mono', type.en));
+      }
+      fig.appendChild(el('span', 'card__bar'));
+      card.appendChild(fig);
+
+      var meta = el('span', 'card__meta');
+      meta.appendChild(el('span', 'card__no mono', w.id));
+      meta.appendChild(el('span', 'card__title', pick(w.title)));
+      if (w.year && w.year !== '—') meta.appendChild(el('span', 'card__year mono', w.year));
+      card.appendChild(meta);
+
+      card.setAttribute('aria-label', w.id + ' ' + pick(w.title) + (w.src ? '' : ' · ' + L().phNote));
+      card.addEventListener('click', function () { openLb(w.id); });
+      grid.appendChild(card);
+    });
+    return grid;
+  }
+
+  function buildLinkList(list) {
+    var ul = el('ul', 'lnks');
+    list.forEach(function (w) {
+      var li = el('li', 'lnks__row');
+      var hasUrl = !!w.url;
+      var n = hasUrl ? el('a', 'lnk') : el('span', 'lnk is-off');
+
+      if (hasUrl) {
+        n.href = w.url;
+        n.target = '_blank';
+        n.rel = 'noopener noreferrer';
+        n.setAttribute('aria-label', pick(w.title) + ' — ' + (w.platform || '') + '（新窗口打开）');
+      }
+
+      n.appendChild(el('span', 'lnk__no mono', w.id));
+      n.appendChild(el('span', 'lnk__t', pick(w.title)));
+      n.appendChild(el('span', 'lnk__p mono', w.platform || ''));
+      n.appendChild(el('span', 'lnk__go mono', hasUrl ? '↗' : L().linkPending));
+
+      li.appendChild(n);
+      ul.appendChild(li);
+    });
+    return ul;
+  }
+
+  /* ---------------- 信号 ---------------- */
   function buildSignal() {
     var ul = $('#sigList');
     ul.textContent = '';
@@ -148,7 +235,14 @@
       var li = el('li', 'sig__row');
       var isCopy = !!s.copy;
       var node = isCopy ? el('button', 'sig__link') : el('a', 'sig__link');
-      if (isCopy) { node.type = 'button'; } else { node.href = s.url; node.target = '_blank'; node.rel = 'noopener noreferrer me'; }
+
+      if (isCopy) {
+        node.type = 'button';
+      } else {
+        node.href = s.url;
+        node.target = '_blank';
+        node.rel = 'noopener noreferrer me';
+      }
 
       node.appendChild(el('span', 'sig__no mono', s.no));
       node.appendChild(el('span', 'sig__name', pick(s)));
@@ -156,9 +250,7 @@
       node.appendChild(el('span', 'sig__go mono', isCopy ? '⧉' : '↗'));
       node.setAttribute('aria-label', pick(s) + ' ' + s.handle + (isCopy ? ' · ' + L().copyHint : ''));
 
-      if (isCopy) {
-        node.addEventListener('click', function () { copyText(s.handle, node); });
-      }
+      if (isCopy) node.addEventListener('click', function () { copyText(s.handle, node); });
 
       li.appendChild(node);
       ul.appendChild(li);
@@ -166,13 +258,14 @@
   }
 
   function copyText(text, node) {
+    var go = node.querySelector('.sig__go');
     var done = function () {
       node.classList.add('is-copied');
-      node.querySelector('.sig__go').textContent = '✓';
+      go.textContent = '✓';
       announce(L().copied + ': ' + text);
       setTimeout(function () {
         node.classList.remove('is-copied');
-        node.querySelector('.sig__go').textContent = '⧉';
+        go.textContent = '⧉';
       }, 1600);
     };
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -206,7 +299,7 @@
     });
   }
 
-  /* ---------------- 灯箱 ---------------- */
+  /* ---------------- 插画灯箱 ---------------- */
   var lb = $('#lb');
 
   function openLb(id) {
@@ -219,7 +312,7 @@
 
   function renderLb() {
     var w = state.items[state.idx];
-    var type = SITE.types.find(function (t) { return t.key === w.type; });
+    var type = SITE.types.filter(function (t) { return t.key === w.type; })[0];
     var stage = $('#lbStage');
     stage.textContent = '';
 
@@ -238,7 +331,7 @@
     $('#lbId').textContent = w.id;
     $('#lbCount').textContent = pad(state.idx + 1) + ' / ' + pad(state.items.length);
     $('#lbTitle').textContent = pick(w.title);
-    $('#lbMeta').textContent = [type ? pick(type.en ? { zh: type.en, en: type.en } : type) : '', w.year !== '—' ? w.year : '']
+    $('#lbMeta').textContent = [type ? type.en : '', w.year && w.year !== '—' ? w.year : '']
       .filter(Boolean).join('  ·  ');
   }
 
@@ -255,7 +348,73 @@
     if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
   });
 
-  /* ---------------- 切语言 = 换卷宗 ---------------- */
+  /* ---------------- 留言箱 ---------------- */
+  var noteForm = $('#noteForm');
+  var noteOut = $('#nOut');
+  var noteMsg = $('#nMsg');
+  var noteName = $('#nName');
+  var noteBtn = $('#nSend');
+  var noteCount = $('#nCount');
+  var noteOn = !!SITE.noteEndpoint;
+
+  function noteState() {
+    noteCount.textContent = noteMsg.value.length + ' / 600';
+    if (!noteOn) {
+      noteForm.classList.add('is-off');
+      noteOut.textContent = L().noteOff;
+      $$('#noteForm input, #noteForm textarea, #noteForm button').forEach(function (e) {
+        if (e.name !== '_gotcha') e.disabled = true;
+      });
+    }
+  }
+
+  noteMsg.addEventListener('input', function () {
+    noteCount.textContent = noteMsg.value.length + ' / 600';
+  });
+
+  noteForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!noteOn) return;
+
+    var msg = noteMsg.value.trim();
+    if (noteForm.querySelector('[name="_gotcha"]').value) { noteSucceed(); return; }
+    if (!msg) {
+      noteOut.textContent = L().noteEmpty;
+      noteMsg.focus();
+      return;
+    }
+
+    noteOut.textContent = L().noteSending;
+    noteBtn.disabled = true;
+
+    fetch(SITE.noteEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        name: noteName.value.trim() || '匿名 / anonymous',
+        message: msg,
+        _subject: 'A1phaBet · 新纸条'
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error('rejected');
+      return r.json().catch(function () { return {}; });
+    }).then(function () {
+      noteSucceed();
+    }).catch(function () {
+      noteOut.textContent = L().noteErr;
+    }).then(function () {
+      noteBtn.disabled = false;
+    });
+  });
+
+  function noteSucceed() {
+    noteOut.textContent = L().noteOk;
+    noteForm.reset();
+    noteCount.textContent = '0 / 600';
+    announce(L().noteOk);
+  }
+
+  /* ---------------- 切语言 ---------------- */
   function setLang(next) {
     if (next === state.lang) return;
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -283,44 +442,50 @@
     var t = L();
     root.lang = t.lang;
     document.title = pick(SITE.meta.title);
-    var md = document.querySelector('meta[name="description"]');
+    var md = $('meta[name="description"]');
     if (md) md.setAttribute('content', pick(SITE.meta.desc));
+
+    $$('[data-i]').forEach(function (node) {
+      var k = node.getAttribute('data-i');
+      if (typeof t[k] === 'string') node.textContent = t[k];
+    });
     $('[data-i="barFile"]').textContent = pick(SITE.bar.file);
     $('[data-i="barStatus"]').textContent = pick(SITE.bar.status);
 
-    var nodes = document.querySelectorAll('[data-i]');
-    for (var i = 0; i < nodes.length; i++) {
-      var k = nodes[i].getAttribute('data-i');
-      if (k === 'barFile' || k === 'barStatus') continue;
-      if (typeof t[k] === 'string') nodes[i].textContent = t[k];
-    }
+    $$('[data-ph-i]').forEach(function (node) {
+      var k = node.getAttribute('data-ph-i');
+      if (typeof t[k] === 'string') node.setAttribute('placeholder', t[k]);
+    });
 
-    document.querySelectorAll('.lang__b').forEach(function (b) {
+    $('#updated').textContent = SITE.meta.updated;
+
+    $$('.lang__b').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.setLang === state.lang));
     });
 
     buildChips();
     buildIdx();
     buildProps();
-    buildPortrait();
-    buildParos();
+    buildFan();
+    buildOc();
     buildWorks();
     buildSignal();
     buildLog();
+    noteState();
     setReadout(currentSection);
   }
 
-  /* ---------------- 顶栏读数 / 左侧索引高亮 ---------------- */
+  /* ---------------- 顶栏读数 / 索引高亮 ---------------- */
   var currentSection = 'identity';
-  var sections = ['identity', 'portrait', 'works', 'signal', 'log'];
+  var sections = ['identity', 'oc', 'works', 'signal', 'log', 'notes'];
 
   function setReadout(id) {
     var i = sections.indexOf(id);
     if (i < 0) return;
-    var rail = document.querySelector('[data-rail="' + id + '"]');
+    var rail = $('[data-rail="' + id + '"]');
     var label = rail ? rail.querySelector('.rail__lb').textContent : '';
     $('#barReadout').textContent = '▸ ' + pad(i + 1) + ' ' + label;
-    document.querySelectorAll('[data-rail]').forEach(function (a) {
+    $$('[data-rail]').forEach(function (a) {
       a.classList.toggle('is-on', a.dataset.rail === id);
       if (a.dataset.rail === id) a.setAttribute('aria-current', 'true');
       else a.removeAttribute('aria-current');
@@ -347,7 +512,7 @@
   }
 
   /* ---------------- 启动 ---------------- */
-  document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+  $$('[data-set-lang]').forEach(function (b) {
     b.addEventListener('click', function () { setLang(b.dataset.setLang); });
   });
 
