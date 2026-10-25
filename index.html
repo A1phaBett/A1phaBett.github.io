@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN" data-lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>A1phaBet · 归档终端</title>
+<meta name="description" content="周柊 / AlphaBet 的归档终端：身份、形象、作品与信号。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23080E11'/%3E%3Cpath d='M16 4v24M4 16h24' stroke='%2300E5FF' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='none' stroke='%2300E5FF' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/syne-800.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/jetbrains-mono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<script>
+  /* 在首帧前定好语言，避免闪一下再跳 */
+  try {
+    var saved = localStorage.getItem('ab-lang');
+    var q = /[?&]lang=(zh|en)\b/.exec(location.search);
+    if (q) saved = q[1];
+    if (saved === 'en' || saved === 'zh') {
+      document.documentElement.dataset.lang = saved;
+      document.documentElement.lang = saved === 'en' ? 'en' : 'zh-CN';
+    }
+  } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip" href="#identity">跳到正文</a>
+
+<header class="bar">
+  <div class="bar__id">
+    <span class="bar__dot" aria-hidden="true"></span>
+    <span class="mono" data-i="barFile">FILE 07—ZZ</span>
+  </div>
+  <div class="bar__mid mono" aria-hidden="true" id="barReadout">—</div>
+  <div class="bar__right">
+    <span class="mono bar__status" data-i="barStatus">ONLINE</span>
+    <span class="mono bar__clock" id="clock">--:--</span>
+    <div class="lang" role="group" aria-label="切换语言 / Switch language">
+      <button class="lang__b" type="button" data-set-lang="zh" aria-pressed="true">中</button>
+      <button class="lang__b" type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<nav class="rail" aria-label="章节索引">
+  <ol class="rail__list">
+    <li><a href="#identity" data-rail="identity"><span class="rail__no mono">01</span><span class="rail__lb" data-i="rail1">身份</span></a></li>
+    <li><a href="#portrait" data-rail="portrait"><span class="rail__no mono">02</span><span class="rail__lb" data-i="rail2">形象</span></a></li>
+    <li><a href="#works" data-rail="works"><span class="rail__no mono">03</span><span class="rail__lb" data-i="rail3">作品</span></a></li>
+    <li><a href="#signal" data-rail="signal"><span class="rail__no mono">04</span><span class="rail__lb" data-i="rail4">信号</span></a></li>
+    <li><a href="#log" data-rail="log"><span class="rail__no mono">05</span><span class="rail__lb" data-i="rail5">记录</span></a></li>
+  </ol>
+</nav>
+
+<main>
+  <div class="strip">
+    <div class="wrap strip__in">
+      <span class="strip__tag mono" data-i="noticeTag">NOTICE</span>
+      <p class="strip__text" data-i="notice"></p>
+    </div>
+  </div>
+
+  <section class="sec sec--hero" id="identity" aria-labelledby="h-name">
+    <div class="wrap hero">
+      <div class="hero__body">
+        <p class="hero__role mono" data-i="role"></p>
+        <h1 class="hero__name" id="h-name" data-i="name"></h1>
+        <p class="hero__roman mono" data-i="roman"></p>
+        <p class="hero__lede" data-i="lede"></p>
+        <p class="hero__jump">
+          <a class="jump" href="#portrait"><span data-i="jumpPortrait">查看形象</span><span class="jump__ar" aria-hidden="true">↓</span></a>
+        </p>
+        <ul class="chips" id="chips"></ul>
+        <ul class="idx" id="idx"></ul>
+      </div>
+      <div class="hero__side">
+        <dl class="props" id="props"></dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="portrait" aria-labelledby="h-portrait">
+    <div class="wrap">
+      <div class="sec__head">
+        <h2 id="h-portrait" data-i="portraitTitle">形象</h2>
+        <p class="sec__meta mono" data-i="portraitMeta">PORTRAIT · 01</p>
+      </div>
+      <div class="portrait">
+        <div class="portrait__fig">
+          <div class="ph ph--tall" id="portraitPh"></div>
+        </div>
+        <div class="portrait__text">
+          <p class="portrait__name" data-i="ocName"></p>
+          <p class="portrait__line" data-i="ocLine"></p>
+          <div class="paros">
+            <p class="mono paros__k" data-i="paroLabel">PARO</p>
+            <ul class="paros__list" id="paros"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="works" aria-labelledby="h-works">
+    <div class="wrap">
+      <div class="sec__head">
+        <h2 id="h-works" data-i="worksTitle">作品</h2>
+        <p class="sec__meta mono" id="worksMeta"></p>
+      </div>
+      <div id="worksBody"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="signal" aria-labelledby="h-signal">
+    <div class="wrap">
+      <div class="sec__head">
+        <h2 id="h-signal" data-i="signalTitle">信号</h2>
+        <p class="sec__meta mono" data-i="signalMeta">SIGNAL</p>
+      </div>
+      <ul class="sig" id="sigList"></ul>
+    </div>
+  </section>
+
+  <section class="sec" id="log" aria-labelledby="h-log">
+    <div class="wrap">
+      <div class="sec__head">
+        <h2 id="h-log" data-i="logTitle">记录</h2>
+        <p class="sec__meta mono" data-i="logMeta">LOG</p>
+      </div>
+      <ol class="log" id="logList"></ol>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p class="foot__line" data-i="foot1"></p>
+    <p class="foot__line foot__line--dim" data-i="foot2"></p>
+    <p class="foot__meta mono">
+      <span data-i="footUpdated">UPDATED</span> <span id="updated">2026-10-25</span>
+      <span class="foot__sep" aria-hidden="true">/</span>
+      <a href="#identity" data-i="footTop">BACK TO TOP</a>
+    </p>
+  </div>
+</footer>
+
+<dialog class="lb" id="lb" aria-labelledby="lbTitle">
+  <div class="lb__bar">
+    <span class="mono lb__id" id="lbId">W-01</span>
+    <span class="mono lb__count" id="lbCount"></span>
+    <div class="lb__ctl">
+      <button type="button" class="lb__b" id="lbPrev" aria-label="上一张">←</button>
+      <button type="button" class="lb__b" id="lbNext" aria-label="下一张">→</button>
+      <button type="button" class="lb__b lb__b--x" id="lbClose" aria-label="关闭">✕</button>
+    </div>
+  </div>
+  <div class="lb__stage" id="lbStage"></div>
+  <div class="lb__cap">
+    <p class="lb__title" id="lbTitle"></p>
+    <p class="mono lb__meta" id="lbMeta"></p>
+  </div>
+</dialog>
+
+<div class="scan" id="scan" aria-hidden="true"></div>
+<p class="sr" id="live" aria-live="polite"></p>
+
+<noscript><p class="noscript">这个页面需要启用 JavaScript 才能显示内容。</p></noscript>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
