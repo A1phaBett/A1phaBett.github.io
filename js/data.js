@@ -28,7 +28,7 @@ const SITE = {
 
   /* ---------- 顶栏（左边文件名 / 右边状态灯） ---------- */
   bar: {
-    file:   { zh: 'FILE ZHOU—07', en: 'FILE AB—01' },
+    file:   { zh: 'FILE ZZ—07', en: 'FILE AB—01' },
     status: { zh: 'ONLINE',      en: 'ONAIR' }
   },
 
@@ -298,7 +298,7 @@ const SITE = {
     { id: 'W-05', type: 'ill', title: { zh: 'melon duo', en: 'melon duo' }, year: '—', src: 'assets/works/W-05.webp' },
     { id: 'W-06', type: 'ill', title: { zh: 'noob design', en: 'noob design' }, year: '—', src: 'assets/works/W-06.webp' },
     { id: 'W-07', type: 'ill', title: { zh: 'hylas', en: 'hylas' }, year: '—', src: 'assets/works/W-07.webp' },
-    { id: 'W-08', type: 'ill', title: { zh: 'untill death to us part', en: 'untill death to us part' }, year: '—', src: 'assets/works/W-08.webp' },
+    { id: 'W-08', type: 'ill', title: { zh: 'until death to us part', en: 'until death to us part' }, year: '—', src: 'assets/works/W-08.webp' },
     { id: 'W-09', type: 'ill', title: { zh: '50k subs', en: '50k subs' }, year: '—', src: 'assets/works/W-09.webp' },
     { id: 'W-10', type: 'ill', title: { zh: 'pacifist', en: 'pacifist' }, year: '—', src: 'assets/works/W-10.webp' },
     { id: 'W-11', type: 'ill', title: { zh: 'i love u day', en: 'i love u day' }, year: '—', src: 'assets/works/W-11.webp' },
@@ -328,7 +328,7 @@ const SITE = {
   social: [
     { no: '01', zh: 'X',       en: 'X',        handle: '@A1pha_Bett', url: 'https://x.com/A1pha_Bett' },
     { no: '02', zh: 'B站',     en: 'Bilibili', handle: 'A1phaBett',   url: 'https://space.bilibili.com/3707050282453134' },
-    { no: '03', zh: '小红书',  en: 'RED',      handle: 'AB · 11530853554', url: 'https://www.xiaohongshu.com/user/profile/11530853554' },
+    { no: '03', zh: '小红书',  en: 'REDNOTE',      handle: 'AB · 11530853554', url: 'https://www.xiaohongshu.com/user/profile/11530853554' },
     { no: '04', zh: 'Discord', en: 'Discord',  handle: 'a1pha_bett',  copy: true },
     { no: '05', zh: 'GitHub',  en: 'GitHub',   handle: 'A1phaBett',   url: 'https://github.com/A1phaBett' }
   ],
@@ -339,8 +339,6 @@ const SITE = {
   log: [
     { date: '2026.10.25', text: { zh: '记录挪到页脚，正片多出一点地方。',
                                   en: 'Moved the log into the footer; the page breathes a bit more.' } },
-    { date: '2026.10.25', text: { zh: '开屏改成写我自己，自设单独一栏；作品只留插画、切片、翻译。',
-                                  en: 'Front page is the author now. The OC has its own section. Works are illustration, clips, translation.' } },
     { date: '2026.10.25', text: { zh: '加了私密留言箱。',
                                   en: 'Added a private inbox.' } }
   ]
